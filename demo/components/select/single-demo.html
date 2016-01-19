@@ -1,5 +1,6 @@
-<div style="width: 300px; margin-bottom: 20px;">
+<div style="width: 600px; margin-bottom: 20px;">
   <h3>Select a single city</h3>
+  <div style="display: inline-block; width: 280px">
   <ng-select [allowClear]="true"
               [items]="items"
               [disabled]="disabled"
@@ -9,6 +10,18 @@
               (typed)="typed($event)"
               placeholder="No city selected">
   </ng-select>
+  </div>
+  <div style="display: inline-block; width: 280px">
+  <ng-select [allowClear]="true"
+             [items]="items"
+             [disabled]="disabled"
+             (data)="refreshValue($event)"
+             (selected)="selected($event)"
+             (removed)="removed($event)"
+             (typed)="typed($event)"
+             placeholder="No city selected">
+  </ng-select>
+  </div>
   <p></p>
   <pre>{{value.text}}</pre>
   <div>
