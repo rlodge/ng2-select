@@ -61,10 +61,10 @@ let optionsTemplate = `
      class="ui-select-container ui-select-bootstrap dropdown open">
     <div [ngClass]="{'ui-disabled': disabled}"></div>
     <div class="ui-select-match"
-         *ngIf="!inputMode">
+         [hidden]="inputMode">
       <span tabindex="-1"
           class="btn btn-default btn-secondary form-control ui-select-toggle"
-          (^click)="matchClick()"
+          (click)="matchClick($event)"
           style="outline: 0;">
         <span *ngIf="active.length <= 0" class="ui-select-placeholder text-muted">{{placeholder}}</span>
         <span *ngIf="active.length > 0" class="ui-select-match-text pull-left"
@@ -170,12 +170,15 @@ export class Select {
   private focusToInput(value:string = '') {
     setTimeout(() => {
       let el = this.element.nativeElement.querySelector('div.ui-select-container > input');
-      el.focus();
-      el.value = value;
-    }, 0);
+      if (el) {
+        el.focus();
+        el.value = value;
+      }
+      return el;
+    }, 1);
   }
 
-  private matchClick(e:any) {
+  private matchClick(e:MouseEvent) {
     if (this._disabled === true) {
       return;
     }
@@ -249,23 +252,12 @@ export class Select {
     this.offSideClickHandler = null;
   }
 
-  private getOffSideClickHandler(context:any) {
+  private getOffSideClickHandler(context:Select) {
     return function (e:any) {
-      if (e.target && e.target.nodeName === 'INPUT'
-        && e.target.className && e.target.className.indexOf('ui-select') >= 0) {
-        return;
+      if (!context.element.nativeElement.contains(e.target)) {
+        context.inputMode = false;
+        context.optionsOpened = false;
       }
-
-      if (e.srcElement && e.srcElement.className &&
-        e.srcElement.className.indexOf('ui-select') >= 0) {
-        if (e.target.nodeName !== 'INPUT') {
-          context.matchClick(null);
-        }
-        return;
-      }
-
-      context.inputMode = false;
-      context.optionsOpened = false;
     };
   }
 

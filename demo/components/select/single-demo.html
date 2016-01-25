@@ -1,7 +1,7 @@
 <div style="width: 600px; margin-bottom: 20px;">
   <h3>Select a single city</h3>
   <div style="display: inline-block; width: 280px">
-  <ng-select [allowClear]="true"
+  <ng-select id="a" [allowClear]="true"
               [items]="items"
               [disabled]="disabled"
               (data)="refreshValue($event)"
@@ -12,7 +12,7 @@
   </ng-select>
   </div>
   <div style="display: inline-block; width: 280px">
-  <ng-select [allowClear]="true"
+  <ng-select id="b" [allowClear]="true"
              [items]="items"
              [disabled]="disabled"
              (data)="refreshValue($event)"
